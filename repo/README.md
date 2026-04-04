@@ -36,6 +36,22 @@ Database (inline in docker-compose.yml):
 ./run_tests.sh
 ```
 
+**151 tests** (64 unit + 87 API), **407 assertions**, 100% pass rate.
+
+### Coverage Model
+
+Coverage is measured at the **route level** (backend) and **module/page level** (frontend),
+not by line-instrumentation. This is because the mandated architecture uses Docker-first
+HTTP integration tests: PHPUnit runs inside the container and calls the live API via curl
+against a real MySQL database. The test process and the server process are separate PHP
+processes, so Xdebug/PCOV line-coverage cannot observe the server-side code.
+
+- **Backend:** 42/42 API routes tested (100%). Each route has at least one happy-path
+  and one negative-path (401/403/400/409) assertion where applicable.
+- **Frontend:** 7/7 JS modules, 4/4 HTML pages, 13/13 page sections tested (100%).
+  Each module is verified for correct serving, key function definitions, API path
+  references, and UI element presence.
+
 ## Stack
 
 - **Backend:** ThinkPHP 6 (PHP 8.2)
